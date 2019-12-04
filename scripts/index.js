@@ -216,7 +216,7 @@ function turn(color) {
             upLetters.children[0].children[i].classList.add("turn");
             bottomLetters.children[0].children[i].classList.add("turn");
         }
-        queue.innerHTML = "B L A C K"
+        queue.innerHTML = "B L A C K";
     }
     else {
         chessBoard.classList.remove("turn");
@@ -233,7 +233,6 @@ function turn(color) {
         }
         queue.innerHTML = "W H I T E"
     }
-    
 }
 
 let white_checkers = [
@@ -1183,7 +1182,7 @@ document.getElementById("chessboard").addEventListener('click', () => {
                                 if (!el.fight) {
                                     el.possibleMoves = [];
                                 }
-                            })
+                            })                          
                         }
                         if (choosenFigure.parentNode.parentNode.rowIndex === 0) {
                             choosenFigure.damka = true;
@@ -1315,7 +1314,16 @@ document.getElementById("chessboard").addEventListener('click', () => {
         }
         
         tds.forEach(el => {
-            el.classList.remove("lit-steps")
+            el.classList.remove("fight-figures");
+        })
+        tds.forEach(el => {
+            if (el.firstChild && el.firstChild.fight) {               
+                    el.classList.add("fight-figures");
+            }
+            else {
+                el.classList.remove("lit-steps")
+            }
+            
         })
 
         choosenFigure = cell;
@@ -1325,6 +1333,7 @@ document.getElementById("chessboard").addEventListener('click', () => {
         if (choosenFigure.tagName === 'DIV') {
             if (choosenFigure.color !== color) {
                 choosenFigure = null;
+                lightenOff()
             }
         }
         if (choosenFigure !== null) {
@@ -1334,6 +1343,9 @@ document.getElementById("chessboard").addEventListener('click', () => {
             }
 
             if (choosenFigure.tagName === 'DIV') {
+                if (choosenFigure.fight) {                                           
+                    choosenFigure.parentNode.classList.remove("fight-figures");
+                }
                 choosenFigure.possibleMoves.forEach(el => {
                     el.classList.add("lit-steps");
                 }) 
