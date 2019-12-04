@@ -285,7 +285,7 @@ tds.forEach(el => {
         if (i >= 0 && j <= 7 && newTarget.firstChild) {
             if (newTarget.firstChild.color === boolean) {
                 newTarget = chessBoard.rows[i].cells[j];
-                if (!newTarget.firstChild) {
+                if (!newTarget.firstChild || newTarget.firstChild === choosenDamka) {
                     el.fighting_cell +=1;
                     damka_fight += side_two;
                     side_two = 0;
@@ -305,7 +305,7 @@ tds.forEach(el => {
         if (i <= 7 && j <= 7 && newTarget.firstChild) {
             if (newTarget.firstChild.color === boolean) {
                 newTarget = chessBoard.rows[i].cells[j];
-                if (!newTarget.firstChild) {
+                if (!newTarget.firstChild || newTarget.firstChild === choosenDamka) {
                     el.fighting_cell +=1;
                     damka_fight += side_three;
                     side_three = 0;
@@ -325,7 +325,7 @@ tds.forEach(el => {
         if (i <= 7 && j >= 0 && newTarget.firstChild) {
             if (newTarget.firstChild.color === boolean) {
                 newTarget = chessBoard.rows[i].cells[j];
-                if (!newTarget.firstChild) {
+                if (!newTarget.firstChild || newTarget.firstChild === choosenDamka) {
                     el.fighting_cell +=1;
                     damka_fight += side_four;
                     side_four = 0;
