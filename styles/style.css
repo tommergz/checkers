@@ -34,6 +34,7 @@ body {
 .board-wrapp {
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -43,6 +44,14 @@ body {
     margin: 30px auto;
     background-color: rgb(0, 0, 0);
     box-shadow: 0px 0px 16px rgba(142, 194, 222, 1);
+}
+
+#queue {
+    color: rgb(0, 174, 255);
+    box-shadow: 0px 0px 16px rgba(142, 194, 222, 1);
+    margin: 0;
+    width: 100%;
+    text-align: center;
 }
 
 .up-letters, .bottom-letters {
@@ -56,7 +65,7 @@ body {
 }
 
 .up-letters div div, .bottom-letters div div {
-    width: 72px;
+    width: 67px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,17 +82,12 @@ body {
 }
 
 #chessboard {
-    width: 580px;
-    height: 579px;
+    width: 540px;
+    height: 539px;
 }
 
 #chessboard tr {
     display: flex;
-}
-
-#chessboard td {
-    width: 70px;
-    height: 70px;
 }
 
 #chessboard div {
@@ -95,7 +99,7 @@ body {
 }
 
 .numbers td {
-    height: 69px;
+    height: 64px;
     text-align: center;
     color: rgb(0, 174, 255);
     font-weight: bold;
@@ -110,8 +114,8 @@ body {
 }
 
 #chessboard td {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -130,7 +134,7 @@ body {
     box-shadow: 0 0 0 2px #000, 0 0 0 6px #F5F5F5, 0 0 0 8px #000;
   }
   
-  .white-figure {
+.white-figure {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,7 +145,7 @@ body {
     border-radius: 50%;
     background-color: white;
     box-shadow: 0 0 0 2px #000, 0 0 0 6px #F5F5F5, 0 0 0 8px #000;
-  }
+}
 
 .turn {
     -webkit-transform: rotate(180deg);

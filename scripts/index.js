@@ -200,6 +200,8 @@ tds.forEach(el => {
     el.fighting_cell = 0;
 })
 
+let queue = document.getElementById("queue");
+
 function turn(color) {
     if (color) {
         chessBoard.classList.add("turn");
@@ -214,6 +216,7 @@ function turn(color) {
             upLetters.children[0].children[i].classList.add("turn");
             bottomLetters.children[0].children[i].classList.add("turn");
         }
+        queue.innerHTML = "B L A C K"
     }
     else {
         chessBoard.classList.remove("turn");
@@ -228,6 +231,7 @@ function turn(color) {
             upLetters.children[0].children[i].classList.remove("turn");
             bottomLetters.children[0].children[i].classList.remove("turn");
         }
+        queue.innerHTML = "W H I T E"
     }
     
 }
@@ -1153,7 +1157,9 @@ let fightFigure = false;
 
 document.getElementById("chessboard").addEventListener('click', () => {
     let cell = event.target;
-    
+    if (cell.firstChild) {
+        cell = cell.firstChild;
+    }
 ///////////////////////MOVES////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
     if (color) {
@@ -1315,20 +1321,28 @@ document.getElementById("chessboard").addEventListener('click', () => {
         choosenFigure = cell;
 
         previousCell = cell.parentNode; 
-        if (choosenFigure.firstChild && fightFigure) {
-            choosenFigure = choosenFigure.firstChild;
-            previousCell = choosenFigure.parentNode;
-        }
+
         if (choosenFigure.tagName === 'DIV') {
-            choosenFigure.possibleMoves.forEach(el => {
-                el.classList.add("lit-steps");
-            }) 
+            if (choosenFigure.color !== color) {
+                choosenFigure = null;
+            }
         }
-        if (choosenFigure.tagName === 'DIV') {
-            lighten()
-        }          
-        else {
-            lightenOff()
-        }                  
-        
+        if (choosenFigure !== null) {
+            if (choosenFigure.firstChild && fightFigure) {
+                choosenFigure = choosenFigure.firstChild;
+                previousCell = choosenFigure.parentNode;
+            }
+
+            if (choosenFigure.tagName === 'DIV') {
+                choosenFigure.possibleMoves.forEach(el => {
+                    el.classList.add("lit-steps");
+                }) 
+            }
+            if (choosenFigure.tagName === 'DIV') {
+                lighten()
+            }          
+            else {
+                lightenOff()
+            }  
+        }        
 })
