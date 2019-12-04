@@ -676,11 +676,14 @@ if (el.damka && i < 7 && j < 7) {
                 el.fight_check(choosenDamka, false)
             })
             if (damka_fight > 1) {
-                el.possibleMoves.forEach(el => {
-                    if (el.fighting_cell === 1) {
-                        this.possibleMoves.remove(el)
+                let count = el.possibleMoves.length;
+                for (let i = 0; i < count; i++) {
+                    if (el.possibleMoves[i].fighting_cell === 1) {
+                        el.possibleMoves.remove(el.possibleMoves[i])
+                        i -= 1;
+                        count -= 1;
                     }
-                })
+                }
             }
             damka_fight = 0;
             side_one = 1;
