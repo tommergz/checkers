@@ -1227,14 +1227,25 @@ document.getElementById("chessboard").addEventListener('click', () => {
                             fightFigure = false;
                             street_of_rage_checkers = false;
                             choosenFigure.oneStep = false;
+                            if (!black_checkers.length) {
+                                queue.innerHTML = "VICTORY!";
+                                tds.forEach(el => {
+                                    el.classList.remove("fight-figures");
+                                    el.classList.remove("lit-steps");
+                                    el.classList.remove("background");
+                                    white_checkers.forEach(el => {
+                                        el.possibleMoves = [];
+                                    })
+                                })
+                                return;
+                            }
                             setTimeout(turn, 500, color); 
                             color = !color;  
                         }
                     }
                 }
                 
-            }  
-                   
+            }                     
         }
     }
     else {
@@ -1300,6 +1311,18 @@ document.getElementById("chessboard").addEventListener('click', () => {
                             fightFigure = false;
                             street_of_rage_checkers = false;
                             choosenFigure.oneStep = false;
+                            if (!white_checkers.length) {
+                                queue.innerHTML = "VICTORY!";
+                                tds.forEach(el => {
+                                    el.classList.remove("fight-figures");
+                                    el.classList.remove("lit-steps");
+                                    el.classList.remove("background");
+                                    black_checkers.forEach(el => {
+                                        el.possibleMoves = [];
+                                    })
+                                })
+                                return;
+                            }
                             setTimeout(turn, 500, color); 
                             color = !color;  
                         }
