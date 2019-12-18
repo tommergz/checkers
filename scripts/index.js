@@ -337,6 +337,10 @@ tds.forEach(el => {
 
 white_checkers.forEach(el => {
     el.steps = function() {
+        let first_direction = 0;
+        let second_direction = 0;
+        let third_direction = 0;
+        let fourth_direction = 0;
         fighting_checkers = 0;
         let i = this.parentNode.parentNode.rowIndex;
         let j = this.parentNode.cellIndex;
@@ -508,6 +512,7 @@ white_checkers.forEach(el => {
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.firstChild) {
                         el.possibleMoves.push(newTarget);
+                        first_direction += 1;
                         fighting_checkers += 1;
                         street_of_rage_checkers = true;
                         el.fight = true;
@@ -518,7 +523,8 @@ white_checkers.forEach(el => {
                     j-=1;
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.childNodes.length) {
-                        el.possibleMoves.push(newTarget)
+                        el.possibleMoves.push(newTarget);
+                        first_direction += 1;
                         fighting_checkers += 1;
                     }  
                 }                 
@@ -539,6 +545,7 @@ white_checkers.forEach(el => {
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.firstChild) {
                         el.possibleMoves.push(newTarget);
+                        second_direction += 1;
                         fighting_checkers += 1;
                         street_of_rage_checkers = true;
                         el.fight = true;
@@ -549,7 +556,8 @@ white_checkers.forEach(el => {
                     j+=1;
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.childNodes.length) {
-                        el.possibleMoves.push(newTarget)
+                        el.possibleMoves.push(newTarget);
+                        second_direction += 1;
                         fighting_checkers += 1;
                     }                        
                 }                
@@ -559,6 +567,40 @@ white_checkers.forEach(el => {
 //\\\\\\\\\\\\\\\\\\\\\\ fight damka 2 \\\\\\\\\\\\\\\\\\\\\\\\\\\\ 
 
 //////////////////////// fight damka 3 \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+        i = i_for_damka_four;
+        j = j_for_damka_four;
+        if (el.damka && i < 7 && j < 7) {
+            newTarget = chessBoard.rows[i].cells[j];
+            if (newTarget.firstChild) {
+                if (!newTarget.firstChild.color) {
+                    i+=1;
+                    j+=1;
+                    newTarget = chessBoard.rows[i].cells[j];
+                    if (!newTarget.firstChild) {
+                        el.possibleMoves.push(newTarget);
+                        third_direction += 1;
+                        fighting_checkers += 1;
+                        street_of_rage_checkers = true;
+                        el.fight = true;
+                    }            
+                }      
+                while (i < 7 && j < 7 && !newTarget.firstChild) {
+                    i+=1;
+                    j+=1;
+                    newTarget = chessBoard.rows[i].cells[j];
+                    if (!newTarget.childNodes.length) {
+                        el.possibleMoves.push(newTarget);
+                        third_direction += 1;
+                        fighting_checkers += 1;
+                    }  
+                }                    
+            }
+        }
+
+//\\\\\\\\\\\\\\\\\\\\\\\\\ fight damka 3 \\\\\\\\\\\\\\\\\\\\\\\\\\
+
+/////////////////////////// fight damka 4 \\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
         i = i_for_damka_three;
         j = j_for_damka_three;
@@ -571,6 +613,7 @@ white_checkers.forEach(el => {
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.firstChild) {
                         el.possibleMoves.push(newTarget);
+                        fourth_direction += 1;
                         fighting_checkers += 1;
                         street_of_rage_checkers = true;
                         el.fight = true;
@@ -581,44 +624,13 @@ white_checkers.forEach(el => {
                     j-=1;
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.childNodes.length) {
-                        el.possibleMoves.push(newTarget)
+                        el.possibleMoves.push(newTarget);
+                        fourth_direction += 1;
                         fighting_checkers += 1;
                     }  
                 }                        
             } 
         }
-
-//\\\\\\\\\\\\\\\\\\\\\\\\\ fight damka 3 \\\\\\\\\\\\\\\\\\\\\\\\\\
-
-/////////////////////////// fight damka 4 \\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-i = i_for_damka_four;
-j = j_for_damka_four;
-if (el.damka && i < 7 && j < 7) {
-    newTarget = chessBoard.rows[i].cells[j];
-    if (newTarget.firstChild) {
-        if (!newTarget.firstChild.color) {
-            i+=1;
-            j+=1;
-            newTarget = chessBoard.rows[i].cells[j];
-            if (!newTarget.firstChild) {
-                el.possibleMoves.push(newTarget);
-                fighting_checkers += 1;
-                street_of_rage_checkers = true;
-                el.fight = true;
-            }            
-        }      
-        while (i < 7 && j < 7 && !newTarget.firstChild) {
-            i+=1;
-            j+=1;
-            newTarget = chessBoard.rows[i].cells[j];
-            if (!newTarget.childNodes.length) {
-                el.possibleMoves.push(newTarget)
-                fighting_checkers += 1;
-            }  
-        }                    
-    }
-}
 
 //\\\\\\\\\\\\\\\\\\\\\\\\\ fight damka 4 \\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -669,22 +681,45 @@ if (el.damka && i < 7 && j < 7) {
         if (fighting_checkers > 0) {
             el.possibleMoves = el.possibleMoves.slice(-fighting_checkers);
         }
-
+        
         let choosenDamka = el;
+        let fight_arr = [first_direction, second_direction, third_direction, fourth_direction];
         if (el.damka && el.fight) {
-            el.possibleMoves.forEach(el => {
-                el.fight_check(choosenDamka, false)
-            })
-            if (damka_fight > 1) {
-                let count = el.possibleMoves.length;
-                for (let i = 0; i < count; i++) {
-                    if (el.possibleMoves[i].fighting_cell === 1) {
-                        el.possibleMoves.remove(el.possibleMoves[i])
-                        i -= 1;
-                        count -= 1;
+            let score = el.possibleMoves.length;
+            function check_direction(item, direction) {
+                let next_cycle = false;
+                for (let k = item; k < direction + item; k++) {
+                    el.possibleMoves[k].fight_check(choosenDamka, false)
+                    if (el.possibleMoves[k].fighting_cell > 1) {                  
+                        next_cycle = true;
                     }
                 }
+                if (next_cycle) {
+                    let fight_score = direction + item;
+                    while (item < fight_score) {
+                        if (el.possibleMoves[item].fighting_cell === 1) {
+                            el.possibleMoves.remove(el.possibleMoves[item])
+                            direction -= 1;
+                            fight_score -= 1;
+                        }     
+                        else {
+                            item +=1;
+                        }            
+                    }
+                }
+                else if (direction) {
+                    item += direction;
+                }
+                return item;
             }
+            let i = 0;
+
+                i = check_direction(i, first_direction); 
+                i = check_direction(i, second_direction);
+                i = check_direction(i, third_direction);
+                check_direction(i, fourth_direction);              
+            
+
             damka_fight = 0;
             side_one = 1;
             side_two = 1;
@@ -696,6 +731,10 @@ if (el.damka && i < 7 && j < 7) {
 
 black_checkers.forEach(el => {
     el.steps = function() {
+        let first_direction = 0;
+        let second_direction = 0;
+        let third_direction = 0;
+        let fourth_direction = 0;
         fighting_checkers = 0;
         let i = this.parentNode.parentNode.rowIndex;
         let j = this.parentNode.cellIndex;
@@ -865,6 +904,7 @@ black_checkers.forEach(el => {
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.firstChild) {
                         el.possibleMoves.push(newTarget);
+                        first_direction += 1;
                         fighting_checkers += 1;
                         street_of_rage_checkers = true;
                         el.fight = true;
@@ -875,7 +915,8 @@ black_checkers.forEach(el => {
                     j-=1;
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.childNodes.length) {
-                        el.possibleMoves.push(newTarget)
+                        el.possibleMoves.push(newTarget);
+                        first_direction += 1;
                         fighting_checkers += 1;
                     }  
                 }                 
@@ -895,6 +936,7 @@ if (el.damka  && i < 7 && j < 7) {
             newTarget = chessBoard.rows[i].cells[j];
             if (!newTarget.firstChild) {
                 el.possibleMoves.push(newTarget);
+                second_direction += 1;
                 fighting_checkers += 1;
                 street_of_rage_checkers = true;
                 el.fight = true;
@@ -905,7 +947,8 @@ if (el.damka  && i < 7 && j < 7) {
             j+=1;
             newTarget = chessBoard.rows[i].cells[j];
             if (!newTarget.childNodes.length) {
-                el.possibleMoves.push(newTarget)
+                el.possibleMoves.push(newTarget);
+                second_direction += 1;
                 fighting_checkers += 1;
             }                        
         }                
@@ -926,6 +969,7 @@ if (el.damka  && i < 7 && j < 7) {
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.firstChild) {
                         el.possibleMoves.push(newTarget);
+                        third_direction += 1;
                         fighting_checkers += 1;
                         street_of_rage_checkers = true;
                         el.fight = true;
@@ -936,7 +980,8 @@ if (el.damka  && i < 7 && j < 7) {
                     j-=1;
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.childNodes.length) {
-                        el.possibleMoves.push(newTarget)
+                        el.possibleMoves.push(newTarget);
+                        third_direction += 1;
                         fighting_checkers += 1;
                     }  
                 }                        
@@ -958,6 +1003,7 @@ if (el.damka  && i < 7 && j < 7) {
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.firstChild) {
                         el.possibleMoves.push(newTarget);
+                        fourth_direction += 1;
                         fighting_checkers += 1;
                         street_of_rage_checkers = true;
                         el.fight = true;
@@ -968,7 +1014,8 @@ if (el.damka  && i < 7 && j < 7) {
                     j+=1;
                     newTarget = chessBoard.rows[i].cells[j];
                     if (!newTarget.childNodes.length) {
-                        el.possibleMoves.push(newTarget)
+                        el.possibleMoves.push(newTarget);
+                        fourth_direction += 1;
                         fighting_checkers += 1;
                     }  
                 }                    
@@ -1027,16 +1074,42 @@ if (el.damka  && i < 7 && j < 7) {
 
         let choosenDamka = el;
         if (el.damka && el.fight) {
-            el.possibleMoves.forEach(el => {
-                el.fight_check(choosenDamka, true)
-            })
-            if (damka_fight > 1) {
-                el.possibleMoves.forEach(el => {
-                    if (el.fighting_cell === 1) {
-                        this.possibleMoves.remove(el)
+            
+            let score = el.possibleMoves.length;
+            function check_direction(item, direction) {
+                let next_cycle = false;
+                for (let k = item; k < direction + item; k++) {
+                    el.possibleMoves[k].fight_check(choosenDamka, true)
+                    if (el.possibleMoves[k].fighting_cell > 1) {                  
+                        next_cycle = true;
                     }
-                })
+                }
+                if (next_cycle) {
+                    let fight_score = direction + item;
+                    while (item < fight_score) {
+                        if (el.possibleMoves[item].fighting_cell === 1) {
+                            el.possibleMoves.remove(el.possibleMoves[item])
+                            direction -= 1;
+                            fight_score -= 1;
+                        }     
+                        else {
+                            item +=1;
+                        }            
+                    }
+                }
+                else if (direction) {
+                    item += direction;
+                }
+                return item;
             }
+
+            let i = 0;
+
+            i = check_direction(i, first_direction); 
+            i = check_direction(i, second_direction);
+            i = check_direction(i, third_direction);
+            check_direction(i, fourth_direction); 
+
             damka_fight = 0;
             side_one = 1;
             side_two = 1;
@@ -1177,6 +1250,9 @@ document.getElementById("chessboard").addEventListener('click', () => {
                         white_checkers.forEach(el => {
                             el.fight = false;
                         })  
+                        tds.forEach(el => {
+                            el.fighting_cell = 0;
+                        })
                         black_checkers.forEach(el => {
                             el.steps();
                         }) 
@@ -1210,10 +1286,23 @@ document.getElementById("chessboard").addEventListener('click', () => {
                         if (choosenFigure.parentNode.parentNode.rowIndex === 0) {
                             choosenFigure.damka = true;
                             choosenFigure.style.boxShadow = "0 0 0 2px #000, 0 0 0 6px red, 0 0 0 8px #000";
-                        }                   
+                        }
+
+                        tds.forEach(el => {
+                            el.fighting_cell = 0;
+                        })
+
+                        tds.forEach(el => {
+                            el.fighting_cell = 0;
+                        })
+
                         choosenFigure.steps();
+
                         street_of_rage_checkers = false;
                         if (!choosenFigure.fight) {
+                            tds.forEach(el => {
+                                el.fighting_cell = 0;
+                            })
                             black_checkers.forEach(el => {
                                 el.steps();
                             }) 
@@ -1261,6 +1350,9 @@ document.getElementById("chessboard").addEventListener('click', () => {
                         black_checkers.forEach(el => {
                             el.fight = false;
                         }) 
+                        tds.forEach(el => {
+                            el.fighting_cell = 0;
+                        })
                         white_checkers.forEach(el => {
                             el.steps();
                         })
@@ -1295,9 +1387,18 @@ document.getElementById("chessboard").addEventListener('click', () => {
                             choosenFigure.damka = true;
                             choosenFigure.style.boxShadow = "0 0 0 2px #000, 0 0 0 6px red, 0 0 0 8px #000";
                         }
+
+                        tds.forEach(el => {
+                            el.fighting_cell = 0;
+                        })
+
                         choosenFigure.steps();
+
                         street_of_rage_checkers = false;
                         if (!choosenFigure.fight) {
+                            tds.forEach(el => {
+                                el.fighting_cell = 0;
+                            })
                             white_checkers.forEach(el => {
                                 el.steps();
                             })
